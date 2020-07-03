@@ -1,0 +1,12 @@
+header
+  p TODO: search and ordering
+
+ul.widget-list
+  - @widgets.each do |widget|
+    li.widget
+      .widget__id= widget.id
+      .widget__name= widget.name
+      .widget__price Price: #{widget.price}
+      .widget__link
+        = link_to 'view', widget_path(widget)
+    hr

@@ -1,0 +1,66 @@
+version: '3.6'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment: 
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=widgets
+    volumes: 
+      - data:/var/lib/mysql
+    command:
+      - mysqld 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - '--sql-mode=ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+
+  app42:
+    image: willnotwish/ruby-node:2.7.1
+    environment:
+      - RAILS_ENV=development
+      - RAILS_LOG_TO_STDOUT=1
+      - DATABASE_HOST=mysql
+      - DATABASE_NAME=widgets
+      - DATABASE_PASSWORD=root
+      - DATABASE_USERNAME=root
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    user: nick
+    volumes:
+      - ./permit:/app
+      - r4-bundle-cache:/usr/local/bundle
+    ports:
+      - 3042:3000
+    depends_on: 
+      - mysql
+    command: bundle exec rails s -b 0.0.0.0
+    # command: bash
+
+  app50:
+    image: willnotwish/ruby-node:2.7.1
+    environment:
+      - RAILS_ENV=development
+      - RAILS_LOG_TO_STDOUT=1
+      - DATABASE_HOST=mysql
+      - DATABASE_NAME=widgets
+      - DATABASE_PASSWORD=root
+      - DATABASE_USERNAME=root
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    user: nick
+    volumes:
+      - ./permit:/app
+      - r5-bundle-cache:/usr/local/bundle
+    ports:
+      - 3050:3000
+    depends_on: 
+      - mysql
+    # command: bundle exec rails s -b 0.0.0.0
+    command: bash
+
+volumes:
+  data:
+  r4-bundle-cache:
+  r5-bundle-cache:
