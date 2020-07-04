@@ -51,3 +51,4 @@ gem 'mysql2', '0.4.10'
 gem 'bigdecimal', '1.4.2'
 
 gem 'slim-rails'
+gem 'simple_form'

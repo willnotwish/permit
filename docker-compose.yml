@@ -23,6 +23,7 @@ services:
       - DATABASE_NAME=widgets
       - DATABASE_PASSWORD=root
       - DATABASE_USERNAME=root
+      - APP_NAME=Rails 4.2 version
     stdin_open: true
     tty: true
     working_dir: /app
