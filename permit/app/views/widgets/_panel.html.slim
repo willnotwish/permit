@@ -2,14 +2,15 @@ header
   .view-options
     .view-options__display-order
       / Must include search param, otherwise it's lost when form is clicked
-      = link_to 'Order by price', { order: 'price', search: params[:search] }
+      = link_to 'Order by price', params.merge( order: 'price' )
+
     .view-options__display-order
       / Must include search param, otherwise it's lost when link is clicked
-      = link_to 'Order by name', { order: 'name', search: params[:search]  }
+      = link_to 'Order by name', params.merge( order: 'name' )
 
     .view-options__search
       / Must include order params, otherwise it's lost when form is submitted
-      - url_for_options = { order: params['order'] }
+      - url_for_options = params
       - options = { method: 'get', enforce_utf8: false }
       = form_tag(url_for_options, options) do
         = text_field_tag('search', params[:search])
