@@ -1,23 +1,18 @@
 header
   .view-options
     .view-options__display-order
-      / Must include search param, otherwise it's lost when form is clicked
-      = link_to 'Order by price', params.merge( order: 'price' )
+      = link_to 'Order by price (low to high)', view_settings.merge(order: 'price_low_to_high')
+      br
+      = link_to 'Order by price (high to low)', view_settings.merge(order: 'price_high_to_low')
 
     .view-options__display-order
-      / Must include search param, otherwise it's lost when link is clicked
-      = link_to 'Order by name', params.merge( order: 'name' )
+      = link_to 'Order by name', view_settings.merge(order: 'name')
 
     .view-options__search
-      / Must include order params, otherwise it's lost when form is submitted
-      - url_for_options = params
-      - options = { method: 'get', enforce_utf8: false }
-      = form_tag(url_for_options, options) do
-        = text_field_tag('search', params[:search])
-        = submit_tag("Search")
-
+      = view_settings_search_form do |form_builder|
+        = form_builder.input :search, as: :string, label: false
+        = form_builder.button :submit, 'Search'
 hr
-
 ul.widget-list
   - @widgets.each do |widget|
     li.widget
