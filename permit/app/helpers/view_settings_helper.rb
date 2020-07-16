@@ -1,4 +1,5 @@
 module ViewSettingsHelper
+  # Like simple_form_for but adds hidden params automatically
   def view_settings_form_for(record, options = {}, &block)
     simple_form_for(record, options.merge(builder: ViewSettingsFormBuilder)) do |form_builder|
       hidden_params = form_builder.generate_hidden_inputs

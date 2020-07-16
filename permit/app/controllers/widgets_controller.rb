@@ -1,16 +1,23 @@
 class WidgetsController < ApplicationController
   def index
-    @widgets = view_settings.apply_scope Widget.all
+    @widgets = view_settings.refine_scope(base_scope.includes(:category))
   end
 
   def show
-    @widget = Widget.find params[:id]
+    @widget = base_scope.find params[:id]
   end
 
   private
 
+  # Do it like this in case the base scope is restricted.
+  # Likely in a public facing controller.
+  def base_scope
+    Widget.all
+  end
+
   def permitted_params
-    params.fetch(:widget_view_settings, {}).permit(:search, :order)
+    params.fetch(:widget_view_settings, {})
+          .permit(:search, :order, filter_attributes: [:category])
   end
 
   def view_settings

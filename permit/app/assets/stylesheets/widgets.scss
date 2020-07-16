@@ -1,3 +1,69 @@
 // Place all the styles related to the widgets controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.widget-view-options {
+  margin-bottom: 2rem;
+  border-bottom: 4px solid lightgray;
+  padding-bottom: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  // &__title {
+  //   padding: 0;
+  // }
+
+  &__search {
+    background: lightsalmon;
+    padding: 1rem;
+  }
+
+  &__category {
+    background: lightgray;
+    padding: 1rem;
+  }
+
+  &__display-order {
+    background: lightsalmon;
+    padding: 1rem;
+  }
+}
+
+.widget-list {
+  margin: 0;
+  padding: 0;
+}
+
+.widget-list-item {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 1rem 0;
+  
+  &:nth-child(odd) {
+    background-color: lightgray;
+  }
+
+  &__id {
+    padding-left: 1rem;
+    grid-column: 1 / 2;
+  }
+
+  &__name {
+    grid-column: 2 / 5;
+  }
+
+  &__price {
+    grid-column: 5 / 7;
+  }
+
+  &__category {
+    grid-column: 7 / 9;
+  }
+
+  &__link {
+    grid-column: 9 / 12;
+    text-align: right;
+  }
+}
