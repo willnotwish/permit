@@ -39,4 +39,36 @@ class WidgetViewSettings < ApplicationViewSettings
     
     scope      
   end
+
+  def default_form_options
+    options = { url: :widgets, method: 'get', enforce_utf8: false }
+  end
+
+  def search_form(view_context, &block)
+    form(view_context, hide: %i[order filter], &block)
+  end
+
+  def filter_form(view_context, &block)
+    form(view_context, hide: %i[order search], &block)
+  end
+
+  def order_form(view_context, &block)
+    form(view_context, hide: %i[filter search], &block)
+  end
+
+  def form(view_context, options, &block)
+    raise 'Missing block' unless block
+
+    to_hide = options[:hide] || []
+    view_context.simple_form_for self, default_form_options do |builder|
+      content = []
+      content << builder.input(:search, as: :hidden) if to_hide.include?(:search)
+      content << builder.input(:order, as: :hidden) if to_hide.include?(:order)
+      if to_hide.include?(:filter)
+        content << builder.fields_for(:filter) { |f| f.input :category, as: :hidden }
+      end
+      content << view_context.capture(builder, &block)
+      content.join(' ').html_safe
+    end
+  end
 end

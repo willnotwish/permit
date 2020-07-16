@@ -30,4 +30,4 @@ The sample app has three view options for its widgets listing:
   * a category filter
   * an order-by option
 
-These options can be combined as requied.
+These options can be combined as required.
