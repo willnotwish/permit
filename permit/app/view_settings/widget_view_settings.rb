@@ -1,7 +1,4 @@
-class WidgetViewSettings  # < ApplicationViewSettings
-  include ActiveModel::Model
-  include ActiveModel::Serialization
-
+class WidgetViewSettings < ApplicationViewSettings
   attr_accessor :search, :order
 
   # We must have a filter, even if it's empty
@@ -21,14 +18,6 @@ class WidgetViewSettings  # < ApplicationViewSettings
   def filter_attributes=(attrs)
     @filter = WidgetFilter.new(attrs)
   end
-
-  def options_for_url(attrs)
-    merged_attrs = attributes.merge(attrs.with_indifferent_access)
-    { 'widget_view_settings' => merged_attrs }
-  end
-
-  # merge is a familiar alias in the style of params.merge
-  alias_method :merge, :options_for_url
 
   def refine_scope(scope)
     # 1. Searching

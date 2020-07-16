@@ -1,15 +1,8 @@
 class ApplicationViewSettings 
-  extend ActiveModel::Naming
-  include ActiveModel::Conversion
+  include ActiveModel::Model
+  include ActiveModel::Serialization
 
-  delegate :to_s, to: :to_params
-
-  attr_reader :attributes
-  def initialize(attrs={})
-    @attributes = attrs
-  end
-
-  delegate :keys, to: :attributes
+  delegate :to_s, to: :options_for_url
 
   class_attribute :param_key
 
@@ -17,10 +10,14 @@ class ApplicationViewSettings
     self.class.param_key || model_name.param_key
   end
 
-  def to_params(attrs = nil)
-    params = attributes
-    params = params.merge(attrs) if attrs.present?
-    { param_key.to_sym => params }
+  # Encodes all the settings in a hash suitable for generating a URL.
+  # Typically pass this as a parameter to Rails' URL helpers such as
+  # link_to or url_for
+  def options_for_url(attrs = {})
+    merged_attrs = attributes.merge(attrs.with_indifferent_access)
+    { param_key => merged_attrs }
   end
-  alias_method :merge, :to_params
+
+  # merge is a familiar alias in the style of params.merge
+  alias_method :merge, :options_for_url
 end
