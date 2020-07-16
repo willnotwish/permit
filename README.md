@@ -8,7 +8,7 @@ In modern index views it is usually possible to search for resources using a "qu
 
 For the best user experience, it should be possible to combine these options no unexpected side effects.
 
-Suppose that a user, having elected to order results by price, browses products using the quick search box. If they subsequently modify the search term and try again, they expect their results to continue to be shown in price order, and not reset to most popular, seemingly at random.
+Suppose that a user, having elected to order results by price, browses products using the quick search box. If that user subsequently modifies the search term and tries again, they would expect their results to continue to be shown in price order, and not reset to most popular, seemingly at random.
 
 The problem is more annoying still if the advanced filter takes some effort on the part of the user to set up. The UI will gain a bad reputation if such a filter is reset whenever the display order or search term is changed.
 
