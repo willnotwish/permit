@@ -48,8 +48,10 @@ class WidgetViewSettings < ApplicationViewSettings
     form(view_context, hide: %i[order filter], &block)
   end
 
-  def filter_form(view_context, &block)
-    form(view_context, hide: %i[order search], &block)
+  def filter_form(*args, &block)
+    options = args.extract_options!
+    view_context = args[0] || options[:view_context]
+    form(view_context, options.merge(hide: %i[order search]), &block)
   end
 
   def order_form(view_context, &block)
@@ -59,8 +61,8 @@ class WidgetViewSettings < ApplicationViewSettings
   def form(view_context, options, &block)
     raise 'Missing block' unless block
 
-    to_hide = options[:hide] || []
-    view_context.simple_form_for self, default_form_options do |builder|
+    to_hide = options.delete(:hide) || []
+    view_context.simple_form_for self, default_form_options.merge(options) do |builder|
       content = []
       content << builder.input(:search, as: :hidden) if to_hide.include?(:search)
       content << builder.input(:order, as: :hidden) if to_hide.include?(:order)
