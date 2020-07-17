@@ -1,14 +1,9 @@
 class WidgetFiltersController < ApplicationController
   def new
-    @widget_filter = WidgetFilter.new widget_filter_params
+    @widget_filter = view_settings.filter
   end
 
   private
-
-  def widget_filter_params
-    params.fetch(:widget_filter, {})
-          .permit(:category)
-  end
 
   def permitted_params
     params.fetch(:widget_view_settings, {})
@@ -16,7 +11,14 @@ class WidgetFiltersController < ApplicationController
   end
 
   def view_settings
-    @view_settings ||= WidgetViewSettings.new(permitted_params)
+    @view_settings ||= WidgetViewSettings.new(permitted_params.merge(accessible_categories: accessible_categories))
   end
   helper_method :view_settings
+
+  def accessible_categories
+    @accessible_categories ||= begin
+      logger.warn "TODO: create accessible_categories scope here (hint: need current_user + mayve pundit)"
+      Category.all
+    end
+  end
 end

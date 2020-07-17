@@ -1,6 +1,8 @@
 class WidgetViewSettings < ApplicationViewSettings
   attr_accessor :search, :order
 
+  attr_accessor :accessible_categories
+
   # We must have a filter, even if it's empty
   def filter
     @filter ||= WidgetFilter.new
