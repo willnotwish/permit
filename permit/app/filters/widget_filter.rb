@@ -11,4 +11,12 @@ class WidgetFilter
   def apply(scope)
     category.present? ? scope.where(category: category) : scope
   end
+
+  def description
+    if category.present?
+      Category.where(id: category).pluck(:name).join(' ')
+    else
+      'All categories'
+    end
+  end
 end
