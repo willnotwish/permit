@@ -38,4 +38,12 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
+    STDOUT.sync = true
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    logger.info "Logging to STDOUT enabled in development.rb"
+  end
 end
