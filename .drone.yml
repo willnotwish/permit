@@ -19,18 +19,18 @@ steps:
       - name: full_bundle
         path: /usr/local/bundle
 
-  - name: rspec
-    image: willnotwish/ruby-node:2.7.1
-    commands:
-      - bundle exec rspec
-    environment:
-      RAILS_ENV: test
-      DATABASE_HOST: mysql
-      DATABASE_NAME: test
-      DATABASE_PASSWORD: root
-    volumes:
-      - name: full_bundle
-        path: /usr/local/bundle
+  # - name: rspec
+  #   image: willnotwish/ruby-node:2.7.1
+  #   commands:
+  #     - bundle exec rspec
+  #   environment:
+  #     RAILS_ENV: test
+  #     DATABASE_HOST: mysql
+  #     DATABASE_NAME: test
+  #     DATABASE_PASSWORD: root
+  #   volumes:
+  #     - name: full_bundle
+  #       path: /usr/local/bundle
 
   - name: precompile-assets
     image: willnotwish/ruby-node:2.7.1
