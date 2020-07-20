@@ -69,32 +69,32 @@ steps:
       password:
         from_secret: docker_hub_password
 
-  # - name: update-rails-image
-  #   image: quay.io/honestbee/drone-kubernetes
-  #   settings:
-  #     kubernetes_server: https://95.217.190.56:16443
-  #     kubernetes_token:
-  #       from_secret: k8s_default_token
-  #     namespace: default
-  #     deployment: rogue-deutsch-backend
-  #     repo: willnotwish/rogue-deutsch-backend
-  #     container: 
-  #       - rails-app
-  #       # - migrator
-  #     tag: development
+  - name: update-rails-image
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: https://95.217.190.56:16443
+      kubernetes_token:
+        from_secret: k8s_default_token
+      namespace: default
+      deployment: permit-app
+      repo: willnotwish/permit
+      container: 
+        - rails-app
+        # - migrator
+      tag: development
 
-  # - name: update-nginx-proxy-image
-  #   image: quay.io/honestbee/drone-kubernetes
-  #   settings:
-  #     kubernetes_server: https://95.217.190.56:16443
-  #     kubernetes_token:
-  #       from_secret: k8s_default_token
-  #     namespace: default
-  #     deployment: rogue-deutsch-backend
-  #     repo: willnotwish/rogue-deutsch-backend-proxy
-  #     container:
-  #       - nginx-proxy
-  #     tag: development
+  - name: update-nginx-proxy-image
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: https://95.217.190.56:16443
+      kubernetes_token:
+        from_secret: k8s_default_token
+      namespace: default
+      deployment: permit-app
+      repo: willnotwish/permit-proxy
+      container:
+        - nginx-proxy
+      tag: development
 
 services:
   - name: mysql
