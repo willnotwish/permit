@@ -1,35 +1,22 @@
 header.widget-view-options
   .widget-view-options__search
     h4.widget-view-options__title Search
-    = simple_form_for view_settings, { url: :widgets, method: 'get', enforce_utf8: false } do |builder|
-      = builder.input :search, as: :string, label: false
-      = builder.input :order, as: :hidden
-      = builder.fields_for :filter do |nested_builder|
-        = nested_builder.input :category, as: :hidden
-      = builder.button :submit, 'Search'
+    = view_settings.search_form self do |f|
+      = f.input :search, as: :string, label: false
+      = f.button :submit, 'Search'
 
   .widget-view-options__category
     h4.widget-view-options__title Filter
-    = simple_form_for view_settings, { url: :widgets, method: 'get', enforce_utf8: false } do |builder|
-      = builder.input :search, as: :hidden
-      = builder.input :order, as: :hidden
-      = builder.fields_for :filter do |nested_builder|
-        = nested_builder.input :category, collection: Category.all.order(:name), label: false
-      = builder.button :submit, 'Apply filter'
+    = link_to 'edit', [:new, :widget_filter, view_settings.options_for_url], data: { remote: true }
+    #advanced_filter
+      p= view_settings.filter.description
 
   .widget-view-options__display-order
     h4.widget-view-options__title Display order
-    = link_to 'Order by price (low to high)', view_settings.merge(order: 'price_low_to_high')
-    br
-    = link_to 'Order by price (high to low)', view_settings.options_for_url(order: 'price_high_to_low')
-    br
-    = link_to 'Order by name', view_settings.options_for_url(order: 'name')
+    = link_to 'price (low to high)', view_settings.options_for_url(order: 'price_low_to_high')
+    |&nbsp;|&nbsp;
+    = link_to 'price (high to low)', view_settings.options_for_url(order: 'price_high_to_low')
+    |&nbsp;|&nbsp;
+    = link_to 'name', view_settings.options_for_url(order: 'name')
 
-ul.widget-list
-  - @widgets.each do |widget|
-    li.widget-list-item
-      .widget-list-item__id= widget.id
-      .widget-list-item__name= widget.name
-      .widget-list-item__price Price: #{widget.price}
-      .widget-list-item__category= widget.category&.name
-      .widget-list-item__link= link_to 'view', widget_path(widget)
+#widget_list= render partial: 'list', object: @widgets

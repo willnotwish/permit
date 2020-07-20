@@ -1,6 +1,8 @@
 class WidgetViewSettings < ApplicationViewSettings
   attr_accessor :search, :order
 
+  attr_accessor :accessible_categories
+
   # We must have a filter, even if it's empty
   def filter
     @filter ||= WidgetFilter.new
@@ -38,5 +40,39 @@ class WidgetViewSettings < ApplicationViewSettings
     end
     
     scope      
+  end
+
+  def default_form_options
+    options = { url: :widgets, method: 'get', enforce_utf8: false }
+  end
+
+  def search_form(view_context, &block)
+    form(view_context, hide: %i[order filter], &block)
+  end
+
+  def filter_form(*args, &block)
+    options = args.extract_options!
+    view_context = args[0] || options[:view_context]
+    form(view_context, options.merge(hide: %i[order search]), &block)
+  end
+
+  def order_form(view_context, &block)
+    form(view_context, hide: %i[filter search], &block)
+  end
+
+  def form(view_context, options, &block)
+    raise 'Missing block' unless block
+
+    to_hide = options.delete(:hide) || []
+    view_context.simple_form_for self, default_form_options.merge(options) do |builder|
+      content = []
+      content << builder.input(:search, as: :hidden) if to_hide.include?(:search)
+      content << builder.input(:order, as: :hidden) if to_hide.include?(:order)
+      if to_hide.include?(:filter)
+        content << builder.fields_for(:filter) { |f| f.input :category, as: :hidden }
+      end
+      content << view_context.capture(builder, &block)
+      content.join(' ').html_safe
+    end
   end
 end

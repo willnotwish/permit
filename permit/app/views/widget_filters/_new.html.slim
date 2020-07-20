@@ -1,0 +1,4 @@
+= view_settings.filter_form self, remote: true do |f|
+  = f.fields_for :filter do |ff|
+    = ff.input :category, collection: view_settings.accessible_categories, include_blank: 'All'
+  = f.button :submit, 'Apply'

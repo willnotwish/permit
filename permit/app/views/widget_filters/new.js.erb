@@ -1,0 +1,3 @@
+console.log("New filter. Starting...");
+
+$('#advanced_filter').html( '<%= j render(partial: 'new', object: @widget_filter, locals: {categories: @categories}) %>' );
