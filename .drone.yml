@@ -45,29 +45,29 @@ steps:
       - name: full_bundle
         path: /usr/local/bundle
 
-  # - name: build-permit-image 
-  #   image: plugins/docker
-  #   settings:
-  #     repo: willnotwish/permit
-  #     tags:
-  #       - development
-  #     dockerfile: Dockerfile.dist.alpine
-  #     username:
-  #       from_secret: docker_hub_username
-  #     password:
-  #       from_secret: docker_hub_password
+  - name: build-permit-image 
+    image: plugins/docker
+    settings:
+      repo: willnotwish/permit
+      tags:
+        - development
+      dockerfile: Dockerfile.dist
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
     
-  # - name: build-permit-proxy-image
-  #   image: plugins/docker
-  #   settings:
-  #     repo: willnotwish/permit-proxy
-  #     tags:
-  #       - development
-  #     dockerfile: Dockerfile.proxy
-  #     username:
-  #       from_secret: docker_hub_username
-  #     password:
-  #       from_secret: docker_hub_password
+  - name: build-permit-proxy-image
+    image: plugins/docker
+    settings:
+      repo: willnotwish/permit-proxy
+      tags:
+        - development
+      dockerfile: Dockerfile.proxy
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
 
   # - name: update-rails-image
   #   image: quay.io/honestbee/drone-kubernetes
