@@ -17,7 +17,7 @@ class WidgetFiltersController < ApplicationController
 
   def accessible_categories
     @accessible_categories ||= begin
-      logger.warn "TODO: create accessible_categories scope here (hint: need current_user + mayve pundit)"
+      logger.warn "TODO: create accessible_categories scope here (hint: need current_user + maybe pundit)"
       Category.all
     end
   end

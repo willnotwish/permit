@@ -5,7 +5,7 @@ class WidgetViewSettings < ApplicationViewSettings
 
   # We must have a filter, even if it's empty
   def filter
-    @filter ||= WidgetFilter.new
+    @filter ||= new_filter
   end
 
   # The attributes hash.
@@ -18,7 +18,7 @@ class WidgetViewSettings < ApplicationViewSettings
   # This is what makes nested forms work.
   # See https://coderwall.com/p/kvsbfa/nested-forms-with-activemodel-model-objects
   def filter_attributes=(attrs)
-    @filter = WidgetFilter.new(attrs)
+    @filter = new_filter(attrs)
   end
 
   def refine_scope(scope)
@@ -40,6 +40,10 @@ class WidgetViewSettings < ApplicationViewSettings
     end
     
     scope      
+  end
+
+  def new_filter(attrs = {})
+    WidgetFilter.new(attrs)
   end
 
   def default_form_options

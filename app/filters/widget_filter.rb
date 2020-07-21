@@ -14,7 +14,7 @@ class WidgetFilter
 
   def description
     if category.present?
-      Category.where(id: category).pluck(:name).join(' ')
+      "Categories: #{Category.where(id: category).pluck(:name).join(' ')}"
     else
       'All categories'
     end
