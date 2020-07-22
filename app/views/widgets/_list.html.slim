@@ -5,4 +5,6 @@ ul.widget-list
       .widget-list-item__name= widget.name
       .widget-list-item__price Price: #{widget.price}
       .widget-list-item__category= widget.category&.name
-      .widget-list-item__link= link_to 'view', widget_path(widget)
+      .widget-list-item__colour= widget.colour&.name
+      .widget-list-item__size= widget.size&.code
+      .widget-list-item__link= link_to 'view', [widget, view_settings.options_for_url]

@@ -1,7 +1,9 @@
 class WidgetViewSettings < ApplicationViewSettings
   attr_accessor :search, :order
 
-  attr_accessor :accessible_categories
+  attr_accessor :accessible_categories,
+                :accessible_colours,
+                :accessible_sizes
 
   # We must have a filter, even if it's empty
   def filter
@@ -47,7 +49,7 @@ class WidgetViewSettings < ApplicationViewSettings
   end
 
   def default_form_options
-    options = { url: :widgets, method: 'get', enforce_utf8: false }
+    options = { url: :widgets, method: 'get', enforce_utf8: false, wrapper: :bulma }
   end
 
   def search_form(view_context, &block)
@@ -70,10 +72,12 @@ class WidgetViewSettings < ApplicationViewSettings
     to_hide = options.delete(:hide) || []
     view_context.simple_form_for self, default_form_options.merge(options) do |builder|
       content = []
-      content << builder.input(:search, as: :hidden) if to_hide.include?(:search)
-      content << builder.input(:order, as: :hidden) if to_hide.include?(:order)
+      content << builder.input(:search, as: :hidden, wrapper: false) if to_hide.include?(:search)
+      content << builder.input(:order, as: :hidden, wrapper: false) if to_hide.include?(:order)
       if to_hide.include?(:filter)
-        content << builder.fields_for(:filter) { |f| f.input :category, as: :hidden }
+        content << builder.simple_fields_for(:filter, defaults: {as: :hidden, wrapper: false}) do |f| 
+          %i[category colour size].map { |attr| f.input(attr) }.join(' ').html_safe
+        end
       end
       content << view_context.capture(builder, &block)
       content.join(' ').html_safe

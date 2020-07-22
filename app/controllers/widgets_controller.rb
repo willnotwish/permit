@@ -17,7 +17,7 @@ class WidgetsController < ApplicationController
 
   def permitted_params
     params.fetch(:widget_view_settings, {})
-          .permit(:search, :order, filter_attributes: [:category])
+          .permit(:search, :order, filter_attributes: %i[category colour size])
   end
 
   def view_settings

@@ -1,7 +1,14 @@
-h1 Widgets
-h2= ENV['APP_NAME']
+header.navbar
+  .container
+    h1.title Widgets
 
-h3 Widget list
-= link_to 'Show all', :widgets, title: 'No search, no filter, natural database order'
+.section
+  .container
+    p See how these view settings are included in any outgoing links:
+    p
+      #view_settings= render 'view_settings'
 
-#panel= render partial: 'panel'
+.section
+  .container
+    nav.nav= link_to 'Reset (show all)', :widgets, title: 'No search, no filter, natural database order'
+    #panel= render partial: 'panel'

@@ -1,22 +1,22 @@
 header.widget-view-options
   .widget-view-options__search
-    h4.widget-view-options__title Search
+    h4.title.is-4 Quick Search
     = view_settings.search_form self do |f|
-      = f.input :search, as: :string, label: false
-      = f.button :submit, 'Search'
+      = f.input :search, as: :string, label: 'Search term'
+      = f.button :submit, 'Go', class: 'button'
 
   .widget-view-options__category
-    h4.widget-view-options__title Filter
+    h4.title.is-4 Filter
     = link_to 'edit', [:new, :widget_filter, view_settings.options_for_url], data: { remote: true }
     #advanced_filter
-      p= view_settings.filter.description
+      = render partial: 'filter', object: view_settings.filter
 
   .widget-view-options__display-order
-    h4.widget-view-options__title Display order
+    h4.title.is-4 Display order
     = link_to 'price (low to high)', view_settings.options_for_url(order: 'price_low_to_high')
-    |&nbsp;|&nbsp;
+    br
     = link_to 'price (high to low)', view_settings.options_for_url(order: 'price_high_to_low')
-    |&nbsp;|&nbsp;
+    br
     = link_to 'name', view_settings.options_for_url(order: 'name')
 
 #widget_list= render partial: 'list', object: @widgets

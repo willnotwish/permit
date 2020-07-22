@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200714163353) do
+ActiveRecord::Schema.define(version: 20200721203631) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "colours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sizes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string   "name"
+    t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,8 +37,14 @@ ActiveRecord::Schema.define(version: 20200714163353) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "category_id"
+    t.integer  "colour_id"
+    t.integer  "size_id"
     t.index ["category_id"], name: "index_widgets_on_category_id", using: :btree
+    t.index ["colour_id"], name: "index_widgets_on_colour_id", using: :btree
+    t.index ["size_id"], name: "index_widgets_on_size_id", using: :btree
   end
 
   add_foreign_key "widgets", "categories"
+  add_foreign_key "widgets", "colours"
+  add_foreign_key "widgets", "sizes"
 end
