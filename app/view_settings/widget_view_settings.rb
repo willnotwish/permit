@@ -1,13 +1,14 @@
 class WidgetViewSettings < ApplicationViewSettings
+  attr_accessor :current_user
   attr_accessor :search, :order
 
-  attr_accessor :accessible_categories,
-                :accessible_colours,
-                :accessible_sizes
+  # attr_accessor :accessible_categories,
+  #               :accessible_colours,
+  #               :accessible_sizes
 
   # We must have a filter, even if it's empty
   def filter
-    @filter ||= new_filter
+    @filter ||= new_filter({})
   end
 
   # The attributes hash.
@@ -44,8 +45,8 @@ class WidgetViewSettings < ApplicationViewSettings
     scope      
   end
 
-  def new_filter(attrs = {})
-    WidgetFilter.new(attrs)
+  def new_filter(attrs)
+    WidgetFilter.new(attrs.merge(current_user: current_user))
   end
 
   def default_form_options

@@ -1,4 +1,9 @@
 class WidgetsController < ApplicationController
+  # include HasScopeRefinement
+  include HasViewSettings
+
+  has_view_settings_for :widgets, class_name: 'WidgetViewSettings'
+
   def index
     @widgets = view_settings.refine_scope(base_scope.includes(:category))
   end
@@ -15,13 +20,8 @@ class WidgetsController < ApplicationController
     Widget.all
   end
 
-  def permitted_params
+  def view_settings_params
     params.fetch(:widget_view_settings, {})
           .permit(:search, :order, filter_attributes: %i[category colour size])
   end
-
-  def view_settings
-    @view_settings ||= WidgetViewSettings.new(permitted_params)
-  end
-  helper_method :view_settings
 end

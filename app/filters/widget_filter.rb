@@ -1,7 +1,10 @@
-# A very simple filter which operates on a single category
+# A filter which selects from category, colour and size.
+# Possible choices are determined from the access rights of the current user
+
 class WidgetFilter
   include ActiveModel::Model
 
+  attr_accessor :current_user
   attr_accessor :category, :colour, :size
 
   def attributes
@@ -36,4 +39,24 @@ class WidgetFilter
     end
     lines
   end
+
+  def possible_categories
+    @possible_categories ||= begin
+      # Just an example
+      current_user == :admin ? Category.all : Category.none
+    end
+  end
+
+  def possible_colours
+    @possible_colours ||= begin
+      Colour.all
+    end
+  end
+
+  def possible_sizes
+    @possible_sizes ||= begin
+      Size.all
+    end
+  end
+
 end
