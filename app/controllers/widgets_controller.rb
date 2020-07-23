@@ -1,11 +1,32 @@
 class WidgetsController < ApplicationController
-  # include HasScopeRefinement
   include HasViewSettings
 
   has_view_settings_for :widgets, class_name: 'WidgetViewSettings'
 
   def index
-    @widgets = view_settings.refine_scope(base_scope.includes(:category))
+    @widgets = base_scope
+    
+    # Filter
+    @widgets = view_settings.filter.apply(@widgets)
+
+    # Quick search
+    if view_settings.search.present?
+      wildcard = "%#{view_settings.search}%"
+      @widgets = @widgets.where(Widget.arel_table[:name].matches(wildcard))
+    end
+
+    # Display order
+    order = view_settings.order
+    if order == 'price_low_to_high'
+      @widgets = @widgets.order(price: :asc)
+    elsif order == 'price_high_to_low'
+      @widgets = @widgets.order(price: :desc)
+    elsif order == 'name'
+      @widgets = @widgets.order(:name)
+    end
+
+    # N+1 queries (eager loading)
+    @widgets = @widgets.includes(:category, :colour, :size)
   end
 
   def show

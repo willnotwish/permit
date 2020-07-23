@@ -1,7 +1,7 @@
 header.widget-view-options
   .widget-view-options__search
     h4.title.is-4 Quick Search
-    = view_settings.search_form self do |f|
+    = view_settings_form url: :widgets do |f|
       = f.input :search, as: :string, label: 'Search term'
       = f.button :submit, 'Go', class: 'button'
 
@@ -13,10 +13,10 @@ header.widget-view-options
 
   .widget-view-options__display-order
     h4.title.is-4 Display order
-    = link_to 'price (low to high)', view_settings.options_for_url(order: 'price_low_to_high')
+    = link_to_unless_current 'price (low to high)', view_settings.options_for_url(order: 'price_low_to_high')
     br
-    = link_to 'price (high to low)', view_settings.options_for_url(order: 'price_high_to_low')
+    = link_to_unless_current 'price (high to low)', view_settings.options_for_url(order: 'price_high_to_low')
     br
-    = link_to 'name', view_settings.options_for_url(order: 'name')
+    = link_to_unless_current 'name', view_settings.options_for_url(order: 'name')
 
 #widget_list= render partial: 'list', object: @widgets
