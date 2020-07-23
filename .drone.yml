@@ -1,0 +1,109 @@
+---
+kind: pipeline
+name: default
+type: docker
+
+# Trigger: only on a push to development
+trigger:
+  branch:
+    - development
+  event:
+    - push
+
+steps:
+  - name: full-bundle
+    image: willnotwish/ruby-node:2.7.1
+    commands:
+      - bundle install --jobs=3 --retry=3
+    volumes:
+      - name: full_bundle
+        path: /usr/local/bundle
+
+  # - name: rspec
+  #   image: willnotwish/ruby-node:2.7.1
+  #   commands:
+  #     - bundle exec rspec
+  #   environment:
+  #     RAILS_ENV: test
+  #     DATABASE_HOST: mysql
+  #     DATABASE_NAME: test
+  #     DATABASE_PASSWORD: root
+  #   volumes:
+  #     - name: full_bundle
+  #       path: /usr/local/bundle
+
+  - name: precompile-assets
+    image: willnotwish/ruby-node:2.7.1
+    commands:
+      - yarn install
+      - bundle exec rails assets:precompile
+    environment:
+      RAILS_ENV: production
+      NODE_ENV: production
+      SECRET_KEY_BASE: dummy
+    volumes:
+      - name: full_bundle
+        path: /usr/local/bundle
+
+  - name: build-permit-image 
+    image: plugins/docker
+    settings:
+      repo: willnotwish/permit
+      tags:
+        - development
+      dockerfile: Dockerfile.dist
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
+    
+  - name: build-permit-proxy-image
+    image: plugins/docker
+    settings:
+      repo: willnotwish/permit-proxy
+      tags:
+        - development
+      dockerfile: Dockerfile.proxy
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
+
+  - name: update-rails-image
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: https://95.217.190.56:16443
+      kubernetes_token:
+        from_secret: k8s_default_token
+      namespace: default
+      deployment: permit-app
+      repo: willnotwish/permit
+      container: 
+        - rails-app
+        # - migrator
+      tag: development
+
+  - name: update-nginx-proxy-image
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: https://95.217.190.56:16443
+      kubernetes_token:
+        from_secret: k8s_default_token
+      namespace: default
+      deployment: permit-app
+      repo: willnotwish/permit-proxy
+      container:
+        - nginx-proxy
+      tag: development
+
+services:
+  - name: mysql
+    image: mysql:5.7
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
+volumes:
+  - name: full_bundle
+    temp: {}

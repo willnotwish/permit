@@ -1,0 +1,14 @@
+header.navbar
+  .container
+    h1.title Widgets
+
+.section
+  .container
+    p See how these view settings are included in any outgoing links:
+    p
+      #view_settings= render 'view_settings'
+
+.section
+  .container
+    nav.nav= link_to 'Reset (show all)', :widgets, title: 'No search, no filter, natural database order'
+    #panel= render partial: 'panel'

@@ -1,8 +1,0 @@
-ul.widget-list
-  - list.each do |widget|
-    li.widget-list-item
-      .widget-list-item__id= widget.id
-      .widget-list-item__name= widget.name
-      .widget-list-item__price Price: #{widget.price}
-      .widget-list-item__category= widget.category&.name
-      .widget-list-item__link= link_to 'view', widget_path(widget)

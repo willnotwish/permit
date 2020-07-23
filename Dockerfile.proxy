@@ -1,0 +1,4 @@
+FROM nginx:alpine
+
+COPY ./nginx.proxy.conf /etc/nginx/conf.d/proxy.conf
+COPY ./public /var/www/html/

@@ -30,7 +30,7 @@ services:
     working_dir: /app
     user: nick
     volumes:
-      - ./permit:/app
+      - .:/app
       - r4-bundle-cache:/usr/local/bundle
     ports:
       - 3042:3000
@@ -42,7 +42,7 @@ services:
   app50:
     image: willnotwish/ruby-node:2.7.1
     environment:
-      - BUNDLE_GEMFILE=Gemfile-rails-5-0
+      - BUNDLE_GEMFILE=Gemfile
       - RAILS_ENV=development
       - RAILS_LOG_TO_STDOUT=1
       - DATABASE_HOST=mysql
@@ -55,7 +55,7 @@ services:
     working_dir: /app
     user: nick
     volumes:
-      - ./permit:/app
+      - .:/app
       - r5-bundle-cache:/usr/local/bundle
     ports:
       - 3050:3000
