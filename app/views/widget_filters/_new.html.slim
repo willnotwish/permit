@@ -1,6 +1,7 @@
-= view_settings.filter_form self, remote: true do |f|
+= view_settings_form url: :widgets, remote: true do |f|
   = f.simple_fields_for :filter, defaults: { include_blank: 'All' } do |ff|
-    = ff.input :category, collection: view_settings.accessible_categories
-    = ff.input :colour, collection: view_settings.accessible_colours
-    = ff.input :size, collection: view_settings.accessible_sizes
+    - filter = ff.object
+    = ff.input :category, collection: filter.possible_categories
+    = ff.input :colour, collection: filter.possible_colours
+    = ff.input :size, collection: filter.possible_sizes
   = f.button :submit, 'Apply', class: 'button'

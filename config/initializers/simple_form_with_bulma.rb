@@ -1,30 +1,32 @@
 SimpleForm.setup do |config|
+  # Examples of Bulma markup
+  
+  # For a regular input field:
+  #  
+  # <div class="field">
+  #   <label class="label">Name</label>
+  #   <div class="control">
+  #     <input class="input" type="text" placeholder="Text input">
+  #   </div>
+  # </div>  
+  #
 
-    # Examples of Bulma markup
-    
-    # For a regular input field:
-    #  
-    # <div class="field">
-    #   <label class="label">Name</label>
-    #   <div class="control">
-    #     <input class="input" type="text" placeholder="Text input">
-    #   </div>
-    # </div>  
-    #
+  # For a select:
+  # 
+  # <div class="field">
+  #   <label class="label">Subject</label>
+  #   <div class="control">
+  #     <div class="select">
+  #       <select>
+  #         <option>Select dropdown</option>
+  #         <option>With options</option>
+  #       </select>
+  #     </div>
+  #   </div>
+  # </div>
 
-    # For a select:
-    # 
-    # <div class="field">
-    #   <label class="label">Subject</label>
-    #   <div class="control">
-    #     <div class="select">
-    #       <select>
-    #         <option>Select dropdown</option>
-    #         <option>With options</option>
-    #       </select>
-    #     </div>
-    #   </div>
-    # </div>
+  # Without this you get "additional" HTML classes on the wrappers. This messes with Bulma css.
+  config.generate_additional_classes_for = [:input]
 
   config.wrappers :bulma, tag: 'div', class: 'field', error_class: 'has-error' do |b|
     b.use :placeholder

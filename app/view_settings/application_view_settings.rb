@@ -20,4 +20,6 @@ class ApplicationViewSettings
 
   # merge is a familiar alias in the style of params.merge
   alias_method :merge, :options_for_url
+
+  attr_accessor :current_user
 end

@@ -1,1 +1,3 @@
-= debug filter
+.filter-description
+    - filter.description.each do |line|
+        = content_tag :div, line, class: 'filter-description__line'
