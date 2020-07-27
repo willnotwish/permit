@@ -58,5 +58,4 @@ class WidgetFilter
       Size.all
     end
   end
-
 end

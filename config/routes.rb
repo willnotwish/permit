@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  resources :widgets, only: [:index, :show]
-  resources :widget_filters, only: [:new]
+  resources :widgets, only: %i[index show]
+  resource :widget_filter, only: :new
 end

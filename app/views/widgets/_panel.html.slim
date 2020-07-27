@@ -6,8 +6,11 @@ header.widget-view-options
       = f.button :submit, 'Go', class: 'button'
 
   .widget-view-options__category
-    h4.title.is-4 Filter
-    = link_to 'edit', [:new, :widget_filter, view_settings.options_for_url], data: { remote: true }
+    .level
+      .level-left
+        h4.title.is-4 Filter
+      .level-right
+        = link_to 'edit', [:new, :widget_filter, view_settings.options_for_url], data: { remote: true }
     #advanced_filter
       = render partial: 'filter', object: view_settings.filter
 
